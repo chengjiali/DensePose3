@@ -124,6 +124,10 @@ def get_func(func_name):
     function in this module or the path to a function relative to the base
     'modeling' module.
     """
+    try:
+        func_name = func_name.decode()
+    except (UnicodeDecodeError, AttributeError):
+        pass
     if func_name == '':
         return None
     new_func_name = name_compat.get_new_name(func_name)

@@ -87,7 +87,7 @@ def add_ResNet_convX_body(model, block_counts, freeze_at=2):
     assert freeze_at in [0, 2, 3, 4, 5]
 
     # add the stem (by default, conv1 and pool1 with bn; can support gn)
-    p, dim_in = globals()[cfg.RESNETS.STEM_FUNC](model, 'data')
+    p, dim_in = globals()[cfg.RESNETS.STEM_FUNC.decode()](model, 'data')
 
     dim_bottleneck = cfg.RESNETS.NUM_GROUPS * cfg.RESNETS.WIDTH_PER_GROUP
     (n1, n2, n3) = block_counts[:3]
@@ -162,7 +162,7 @@ def add_residual_block(
     ) else 1
 
     # transformation blob
-    tr = globals()[cfg.RESNETS.TRANS_FUNC](
+    tr = globals()[cfg.RESNETS.TRANS_FUNC.decode()](
         model,
         blob_in,
         dim_in,
@@ -176,7 +176,7 @@ def add_residual_block(
 
     # sum -> ReLU
     # shortcut function: by default using bn; support gn
-    add_shortcut = globals()[cfg.RESNETS.SHORTCUT_FUNC]
+    add_shortcut = globals()[cfg.RESNETS.SHORTCUT_FUNC.decode()]
     sc = add_shortcut(model, prefix, blob_in, dim_in, dim_out, stride)
     if inplace_sum:
         s = model.net.Sum([tr, sc], tr)

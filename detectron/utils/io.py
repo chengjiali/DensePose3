@@ -12,13 +12,13 @@ from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
 
-import cPickle as pickle
+import pickle
 import hashlib
 import logging
 import os
 import re
 import sys
-import urllib2
+import urllib.request as urllib2
 
 logger = logging.getLogger(__name__)
 
@@ -45,6 +45,10 @@ def cache_url(url_or_file, cache_dir):
     Len_filename  = len( url.split('/')[-1] )
     BASE_URL  =  url[0:-Len_filename-1]
     #
+    try:
+        cache_dir = cache_dir.decode()
+    except (UnicodeDecodeError, AttributeError):
+        pass
     cache_file_path = url.replace(BASE_URL, cache_dir)
     if os.path.exists(cache_file_path):
         #assert_cache_file_is_ok(url, cache_file_path)
@@ -102,7 +106,7 @@ def download_url(
     https://stackoverflow.com/questions/2028517/python-urllib2-progress-hook
     """
     response = urllib2.urlopen(url)
-    total_size = response.info().getheader('Content-Length').strip()
+    total_size = response.getheader('Content-Length').strip()
     total_size = int(total_size)
     bytes_so_far = 0
 

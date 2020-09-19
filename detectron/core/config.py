@@ -43,6 +43,7 @@ import numpy as np
 import os
 import os.path as osp
 import yaml
+from io import IOBase
 
 from detectron.utils.collections import AttrDict
 from detectron.utils.io import cache_url
@@ -1151,9 +1152,9 @@ def get_output_dir(datasets, training=True):
 
 def load_cfg(cfg_to_load):
     """Wrapper around yaml.load used for maintaining backward compatibility"""
-    assert isinstance(cfg_to_load, (file, basestring)), \
-        'Expected {} or {} got {}'.format(file, basestring, type(cfg_to_load))
-    if isinstance(cfg_to_load, file):
+    assert isinstance(cfg_to_load, (IOBase, basestring)), \
+        'Expected {} or {} got {}'.format(IOBase, basestring, type(cfg_to_load))
+    if isinstance(cfg_to_load, IOBase):
         cfg_to_load = ''.join(cfg_to_load.readlines())
     if isinstance(cfg_to_load, basestring):
         for old_module, new_module in iteritems(_RENAMED_MODULES):
