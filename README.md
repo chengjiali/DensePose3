@@ -1,3 +1,9 @@
+Adapt Facebook DensePose to Python3
+
+Other implementations for Python3:
+- https://github.com/stimong/densepose_python3
+- https://github.com/landersson/DensePose/tree/python3
+
 # DensePose: 
 **Dense Human Pose Estimation In The Wild**
 
